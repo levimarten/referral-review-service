@@ -28,12 +28,6 @@ The suite tests the API with local test replies. It runs without an API key or a
 - [What each test checks](docs/tests.md)
 - [Decision log](docs/adr.md)
 
-## Before the interview
-
-- Update the deck for the current API demo. Include the EHR and gateway architecture, one ADR, and a backup screenshot or recording.
-- Replay difficult referrals and show how to test, release, and monitor model or prompt changes.
-- Finish the AI work log, record actual time spent, and prepare responses and success measures for the four IN-01 team scenarios.
-
 ## Future work
 
 - Use MFA for GitHub and provider accounts, scope and rotate API keys, and protect `main` with required reviews and CI
