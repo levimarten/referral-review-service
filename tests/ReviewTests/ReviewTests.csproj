@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../../src/Api/Api.csproj" />
+    <Compile Include="../../fixtures/Benchmark.cs" Link="Benchmark.cs" />
+    <None Include="../../fixtures/referral-evaluation.json" Link="referral-evaluation.json" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>

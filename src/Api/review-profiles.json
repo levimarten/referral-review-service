@@ -1,0 +1,18 @@
+{
+  "cardiology": {
+    "referralType": "specialist_consultation",
+    "checks": {
+      "question": "A specific question for cardiology is stated.",
+      "medication": "Current medication or explicit absence of current medication is stated.",
+      "ecg": "A completed ECG finding is available in the supplied draft or supporting material."
+    }
+  },
+  "orthopedics": {
+    "referralType": "specialist_consultation",
+    "checks": {
+      "question": "A specific question for orthopedics is stated.",
+      "function": "The impact on a concrete daily activity is stated.",
+      "imaging": "A completed patient imaging finding relevant to the stated orthopedic concern is available."
+    }
+  }
+}

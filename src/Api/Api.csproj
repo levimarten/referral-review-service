@@ -1,0 +1,7 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <ItemGroup>
+    <ProjectReference Include="../Contracts/Contracts.csproj" />
+    <Content Update="review-profiles.json" CopyToOutputDirectory="PreserveNewest" />
+    <InternalsVisibleTo Include="ReviewTests" />
+  </ItemGroup>
+</Project>
