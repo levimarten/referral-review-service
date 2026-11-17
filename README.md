@@ -2,17 +2,27 @@
 
 A case-study proof of concept that checks synthetic GP-to-specialist referrals for missing or unclear information. OpenAI supplies findings for the demo. The API checks the quotes before returning them.
 
-## Run locally
+## What you need
 
-With the .NET 10 SDK, set `OPENAI_API_KEY` in the environment or in the ignored `.env` file at the repo root. The inference endpoint and default model are set in [appsettings.json](ReferralReview.Api/appsettings.json).
+- The .NET 10 SDK. The first build or test run restores NuGet packages.
+- An OpenAI API key and available API quota for live reviews. The automated tests run without a key.
+- Postman or another HTTP client to try the demo.
 
-Run the API from the repo root.
+## Get started
+
+Create an ignored `.env` file beside `ReferralReview.sln` and add:
+
+```dotenv
+OPENAI_API_KEY=your_openai_api_key_here
+```
+
+From the repo root, run:
 
 ```powershell
 dotnet run --project ReferralReview.Api
 ```
 
-The [demo workflow](docs/Demo-workflow.md) has two Postman request bodies and their expected results. The API listens on port 5077. Review requests send text to OpenAI, so use synthetic data only.
+The API listens at `http://127.0.0.1:5077`. Use the [demo workflow](docs/Demo-workflow.md) to send synthetic referrals and check the results. The inference endpoint and model are set in [appsettings.json](ReferralReview.Api/appsettings.json).
 
 ## Test
 

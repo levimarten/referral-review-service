@@ -59,6 +59,22 @@ public sealed class EvidenceTests
     }
 
     [TestMethod]
+    public void MissingFindingCanNameTheSearchedSourceWithoutAQuote()
+    {
+        // Given
+        var sources = new Dictionary<string, string> { ["draft"] = "Please assess." };
+        var finding = new Finding("ecg", "missing", "draft", null);
+
+        // When
+        var result = EvidenceValidator.Validate(finding, sources);
+
+        // Then
+        Assert.AreEqual("missing", result.Status);
+        Assert.IsNull(result.SourceId);
+        Assert.IsNull(result.Excerpt);
+    }
+
+    [TestMethod]
     public void RepeatedQuoteDoesNotIdentifyOnePassage()
     {
         // Given

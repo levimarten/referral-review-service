@@ -10,6 +10,14 @@ internal static class EvidenceValidator
         if (finding?.Status is not ("present" or "unclear" or "missing" or "unable_to_verify"))
             return unverified;
 
+        // An absent item may name the source that was searched without citing a passage.
+        if (
+            finding.Status == "missing"
+            && string.IsNullOrWhiteSpace(finding.Excerpt)
+            && (finding.SourceId is null || sources.ContainsKey(finding.SourceId))
+        )
+            return new Evidence("missing", null, null);
+
         if (finding.SourceId is null && finding.Excerpt is null && finding.Status != "present")
             return new Evidence(finding.Status, null, null);
 

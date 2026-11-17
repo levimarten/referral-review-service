@@ -18,7 +18,7 @@ dotnet run --project ReferralReview.Api
 
 Check that `GET http://127.0.0.1:5077/health` returns `200 OK`.
 
-## Send a review in Postman
+## Send a review in Postman, Bruno or Curl
 
 Choose `POST http://127.0.0.1:5077/review`. Under **Body**, choose **raw** and **JSON**. Paste one request body at a time.
 

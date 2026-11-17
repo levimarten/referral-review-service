@@ -51,4 +51,6 @@ dotnet test ReferralReview.sln --filter InventedGatewayQuoteIsHidden
 
 One run with `gpt-5.4-mini-2026-03-17` returned results for all 16 synthetic referrals. It matched 15 of 16 overall results and 40 of 48 checklist labels. In case O06, the model accepted a vague statement about daily activities, so the API missed the gap.
 
-Use the [demo workflow](Demo-workflow.md) to try that case in Postman.
+A follow-up run after narrowing the output schema and clarifying the prompt matched all 16 overall results and 44 of 48 checklist labels. Four labels still differed, including the wrong-specialty question in O08.
+
+Use the [demo workflow](Demo-workflow.md) to try the cases in Postman.

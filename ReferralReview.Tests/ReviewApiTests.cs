@@ -135,6 +135,18 @@ public sealed class ReviewApiTests
             Assert.IsNotNull(payload);
             Assert.AreEqual(false, payload.Store);
             Assert.AreEqual("json_schema", payload.ResponseFormat?.GetProperty("type").GetString());
+            var input = JsonSerializer.Deserialize<GatewayReviewInput>(
+                payload.Messages.Single(message => message.Role == "user").Content!,
+                ReviewJson.Options
+            );
+            Assert.IsNotNull(input);
+            var allowedKeys = payload.ResponseFormat!.Value
+                .GetProperty("json_schema")
+                .GetProperty("schema").GetProperty("properties").GetProperty("findings")
+                .GetProperty("items").GetProperty("properties").GetProperty("check")
+                .GetProperty("enum").EnumerateArray()
+                .Select(value => value.GetString()).ToArray();
+            CollectionAssert.AreEquivalent(input.Checklist.Keys.ToArray(), allowedKeys);
 
             var message = new ChatMessage(
                 "assistant",
