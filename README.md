@@ -48,3 +48,4 @@ The suite tests the API with local test replies. It runs without an API key or a
 - Test with live streamed feedback
 - Connect to the approved Acme gateway
 - Add the EHR screen and FHIR integration
+- Add logging and potential encryption of data
