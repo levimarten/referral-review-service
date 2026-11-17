@@ -1,8 +1,10 @@
 <Project>
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <UseArtifactsOutput>true</UseArtifactsOutput>
+    <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <DefaultItemExcludes>$(DefaultItemExcludes);**/bin/**;**/obj/**</DefaultItemExcludes>
     <NuGetAudit>true</NuGetAudit>
     <NuGetAuditMode>all</NuGetAuditMode>
     <WarningsAsErrors>$(WarningsAsErrors);NU1903;NU1904</WarningsAsErrors>

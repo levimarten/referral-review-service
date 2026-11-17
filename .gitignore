@@ -8,3 +8,5 @@ demo/
 *.gguf
 .env
 .env.*
+/postman
+.postman

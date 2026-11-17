@@ -1,0 +1,6 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <ItemGroup>
+    <Content Update="review-profiles.json" CopyToOutputDirectory="PreserveNewest" />
+    <InternalsVisibleTo Include="ReferralReview.Tests" />
+  </ItemGroup>
+</Project>

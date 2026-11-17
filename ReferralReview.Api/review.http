@@ -1,0 +1,34 @@
+@reviewApi = http://127.0.0.1:5077
+
+### C01: complete referral (expect no_gaps_found)
+POST {{reviewApi}}/review
+Content-Type: application/json
+
+{
+  "profile": "cardiology",
+  "referralType": "specialist_consultation",
+  "draft": "Could cardiology advise on further evaluation of exertional symptoms?\nCurrent medication: amlodipine.\nECG today: sinus rhythm.",
+  "supportingSources": []
+}
+
+### C05: medication list unavailable (expect review_suggested)
+POST {{reviewApi}}/review
+Content-Type: application/json
+
+{
+  "profile": "cardiology",
+  "referralType": "specialist_consultation",
+  "draft": "Could cardiology advise on further evaluation of exertional symptoms?\nCurrent medication list unavailable.\nECG today: sinus rhythm.",
+  "supportingSources": []
+}
+
+### O07: imaging belongs to a different person (expect imaging missing)
+POST {{reviewApi}}/review
+Content-Type: application/json
+
+{
+  "profile": "orthopedics",
+  "referralType": "specialist_consultation",
+  "draft": "Could orthopedics assess treatment options for persistent right knee pain?\nThe patient cannot climb stairs without stopping.\nThe patient's sibling had an X-ray showing degenerative changes.",
+  "supportingSources": []
+}

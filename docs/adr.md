@@ -1,41 +1,51 @@
-# Architecture decision log
+# Decision log
 
-## 001 Advisory review
+## 001 Review and Send
 
-**Context.** A review can be wrong or arrive late.
+**Context.** A review can be wrong or late.
 
-**Options.** Block Send when review flags a gap, or keep review advisory.
+**Options.** Make Send wait for review, or keep the two actions independent.
 
-**Decision.** Run review automatically. The clinician can send at any time through the EHR. The CLI simulates this path.
+**Decision.** Give review results as advice. The existing EHR owns Send.
 
-**Consequence.** A timeout or false warning cannot block Send. Clinicians decide how to act on findings.
+**Consequence.** The clinician can send while a review is pending or unavailable.
 
-## 002 Clinic checklists and model evidence
+## 002 Checklists and quotes
 
-**Context.** Clinics may require different information. A model can invent a quote or misread a real one.
+**Context.** Clinics ask for different information. A gateway can invent or misread a quote.
 
-**Options.** Use keyword rules, let the model decide what is required, or give the model a clinic checklist.
+**Options.** Let the gateway choose what to check, or use a checklist for each clinic.
 
-**Decision.** The API selects a clinic profile and asks the model to assess each item. Positive findings require a unique verbatim excerpt from the supplied source.
+**Decision.** The API selects a checklist and verifies quoted text against the input.
 
-**Consequence.** A new clinic can define its own checks. Exact matching confirms the quote exists. Semantic mistakes remain possible, so evaluation uses human-labelled cases.
+**Consequence.** A passing quote can still be irrelevant. The evaluation includes those cases.
 
-## 003 Inference adapter
+## 003 Gateway connection
 
-**Context.** The prototype needs to run locally, while the target design routes inference through Acme AI Gateway.
+**Context.** The prototype needs a local demo. Deployment uses the approved Acme gateway.
 
-**Options.** Couple the API to one provider or use an inference interface.
+**Options.** Run inference inside the Review API, or call a separate service.
 
-**Decision.** Use a chat-completions adapter for configured endpoints and a keyword baseline for offline comparison. Use a deterministic mock for fault tests.
+**Decision.** The API calls a gateway over HTTP. The demo sends synthetic referrals to OpenAI and requests structured findings.
 
-**Consequence.** A local model can exercise the same API path. The Acme gateway contract and live model performance still need verification.
+**Consequence.** The Acme gateway can replace OpenAI at the same boundary. Tests supply their own gateway replies.
 
-## 004 Minimal logging and bounded requests
+## 004 Logs and limits
 
-**Context.** Referral text is sensitive and inference can be slow.
+**Context.** Referral text is sensitive, and inference can stall.
 
-**Options.** Log full requests for debugging or record only operational metadata.
+**Options.** Log referral content for debugging, or log review metadata.
 
-**Decision.** Log a random review ID, mode, outcome, latency and error category. Cap request and response sizes, concurrent reviews and inference time. Enable direct and transitive NuGet auditing.
+**Decision.** Log the review ID, result, duration, and error category. Limit request and response sizes, concurrent requests, and wait time. Enable NuGet dependency auditing.
 
-**Consequence.** Debugging relies on synthetic cases and review IDs. Production still needs EHR authorization, access auditing and a confirmed gateway retention policy.
+**Consequence.** Use synthetic cases to investigate failures. Deployment still needs EHR access controls and auditing.
+
+## 005 API contract
+
+**Context.** The review needs a draft and selected supporting text.
+
+**Options.** Expose a FHIR operation now, or map EHR data to a small JSON request.
+
+**Decision.** Demo the JSON API with an HTTP client. Document the planned EHR screen and FHIR mapping.
+
+**Consequence.** The API can be demonstrated before the EHR integration is built.

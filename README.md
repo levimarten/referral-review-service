@@ -1,52 +1,46 @@
 # Referral Review Service
 
-A .NET 8 prototype that checks synthetic referrals for missing or unclear information. Opening a draft in the CLI starts a review. Press Enter to simulate sending at any time.
+The API checks a synthetic referral draft for missing or unclear information. OpenAI supplies findings for the demo. The API checks the quotes before returning them.
 
-## Quick start
+## Run locally
 
-With the .NET 8 SDK installed, start the offline baseline:
+With the .NET 10 SDK, set `OPENAI_API_KEY` in the environment or in the ignored `.env` file at the repo root. The inference endpoint and default model are set in [appsettings.json](ReferralReview.Api/appsettings.json).
 
-```powershell
-dotnet run --project src/Api -- --baseline
-```
-
-In a second terminal, run a case or evaluate all 16:
+Run the API from the repo root.
 
 ```powershell
-dotnet run --project src/Cli -- C01
-dotnet run --project src/Cli -- --evaluate
-dotnet run --project tests/ReviewTests
+dotnet run --project ReferralReview.Api
 ```
 
-Try `C05` for an unavailable medication list and `O07` for a false positive. The offline baseline takes a sibling's X-ray as evidence for the patient in `O07`.
+The [demo workflow](docs/Demo-workflow.md) has two Postman request bodies and their expected results. The API listens on port 5077. Review requests send text to OpenAI, so use synthetic data only.
 
-## Local model
-
-Start llama.cpp with an instruction-tuned GGUF:
+## Test
 
 ```powershell
-.\llama-server.exe -m "C:\path\to\model.gguf" --alias referral-local --host 127.0.0.1 --port 8081
+dotnet test ReferralReview.sln
 ```
 
-Point the API at the model and start it:
+The suite tests the API with local test replies. It runs without an API key or a running demo. Build and test output goes into the ignored `artifacts/` folder.
 
-```powershell
-$env:REFERRAL_MODEL_URL = 'http://127.0.0.1:8081/v1/chat/completions'
-$env:REFERRAL_MODEL_NAME = 'referral-local'
-dotnet run --project src/Api
-```
+## Read the code
 
-The API also accepts HTTPS chat-completions endpoints. Set `REFERRAL_MODEL_KEY` in the API environment if the provider requires a bearer token. Use synthetic data only.
+- [How a review works](docs/review-api.md), including the planned EHR button and API fields
+- [What each test checks](docs/tests.md)
+- [Decision log](docs/adr.md)
 
-## Code map
+## Before the interview
 
-| Path | Purpose |
-| --- | --- |
-| `src/Api` | `POST /review`, clinic profiles, inference and evidence checks |
-| `src/Cli` | Demo and evaluation runner |
-| `src/Contracts` | Shared request and response types |
-| `tests/ReviewTests` | Review service and evidence assertions |
-| `fixtures` | Synthetic referrals and expected results |
-| [Decision log](docs/adr.md) | Architecture decisions and trade-offs |
+- Update the deck for the current API demo. Include the EHR and gateway architecture, one ADR, and a backup screenshot or recording.
+- Replay difficult referrals and show how to test, release, and monitor model or prompt changes.
+- Finish the AI work log, record actual time spent, and prepare responses and success measures for the four IN-01 team scenarios.
 
-The API binds to `127.0.0.1:5077`, caps request size and inference concurrency, and leaves referral content out of operational logs. The EHR send path is simulated. Local llama.cpp and the Acme gateway still need live integration tests.
+## Future work
+
+- Use MFA for GitHub and provider accounts, scope and rotate API keys, and protect `main` with required reviews and CI
+- Use OAuth 2.0 for EHR callers. Validate issuer, audience, and scopes, check referral access, and audit access separately from operational logs
+- Run CSharpier in CI and consider Husky hooks for pre-commit and pre-push checks
+- Set up CI for pull requests with formatting and lint checks, a build, unit and HTTP integration tests, and NuGet security auditing
+- Set up a frontend for demoing purposes
+- Test with live streamed feedback
+- Connect to the approved Acme gateway
+- Add the EHR screen and FHIR integration
