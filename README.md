@@ -1,6 +1,6 @@
 # Referral Review Service
 
-The API checks a synthetic referral draft for missing or unclear information. OpenAI supplies findings for the demo. The API checks the quotes before returning them.
+A case-study proof of concept that checks synthetic GP-to-specialist referrals for missing or unclear information. OpenAI supplies findings for the demo. The API checks the quotes before returning them.
 
 ## Run locally
 
